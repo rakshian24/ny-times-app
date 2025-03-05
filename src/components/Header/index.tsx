@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Header = ({ title }: Props) => {
-  const isMobile = useMediaQuery(`(max-width:${screenSize.mobile})`);
+  const isTablet = useMediaQuery(`(max-width:${screenSize.tablet})`);
 
   return (
     <Stack
@@ -19,7 +19,7 @@ const Header = ({ title }: Props) => {
         zIndex: 999999,
       }}
     >
-      <Typography sx={{ fontSize: isMobile ? 24 : 32, fontWeight: "bold" }}>
+      <Typography sx={{ fontSize: isTablet ? 24 : 32, fontWeight: "bold" }}>
         {title}
       </Typography>
     </Stack>
