@@ -23,11 +23,14 @@ const Article = ({ article }: Props) => {
     >
       <CardMedia
         sx={{ height: 140 }}
-        image={article?.media[0]?.["media-metadata"][2].url}
+        image={
+          article?.media[0]?.["media-metadata"][2].url ||
+          "https://placehold.co/440x293/png"
+        }
         title={article.title}
       />
       <CardContent sx={{ flexGrow: 1 }}>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h6" component="div">
           {article.title}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
