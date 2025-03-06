@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../constants";
 
 const apiKey = process.env.REACT_APP_NYT_API_KEY;
-const NYT_URL = `${BASE_URL}${apiKey}`;
 
 export const fetchArticles = createAsyncThunk(
   "articles/fetchArticles",
-  async (_, { rejectWithValue }) => {
+  async (range: number, { rejectWithValue }) => {
     try {
-      const response = await fetch(NYT_URL);
+      const response = await fetch(
+        `https://api.nytimes.com/svc/mostpopular/v2/viewed/${range}.json?api-key=${apiKey}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch");
       }
