@@ -1,46 +1,58 @@
 import {
+  Accordion,
+  AccordionActions,
+  AccordionDetails,
+  AccordionSummary,
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
+  Grid,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
 import { Article as ArticleType } from "../../types";
+import { screenSize } from "../../constants";
 
 type Props = {
   article: ArticleType;
 };
 
 const Article = ({ article }: Props) => {
+  const isTablet = useMediaQuery(`(max-width:${screenSize.tablet})`);
+
   return (
-    <Card
+    <Accordion
       sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
+        p: 2,
+        my: 2,
+        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
       }}
     >
-      <CardMedia
-        sx={{ height: 140 }}
-        image={
-          article?.media[0]?.["media-metadata"][2].url ||
-          "https://placehold.co/440x293/png"
-        }
-        title={article.title}
-      />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography gutterBottom variant="h6" component="div">
-          {article.title}
-        </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {article.abstract}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+      <AccordionSummary expandIcon={!isTablet && <ExpandMore />}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={2}>
+            <img
+              src={
+                article?.media[0]?.["media-metadata"][2]?.url ||
+                "https://placehold.co/440x293/png"
+              }
+              alt={article.title}
+              style={{ width: "100%", height: "auto" }}
+            />
+          </Grid>
+          <Grid item xs={12} md={10}>
+            <Typography variant="h6">{article.title}</Typography>
+          </Grid>
+        </Grid>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>{article.abstract}</Typography>
+      </AccordionDetails>
+      <AccordionActions>
+        <Button component="a" href={article.url} target="_blank">
+          View More
+        </Button>
+      </AccordionActions>
+    </Accordion>
   );
 };
 
