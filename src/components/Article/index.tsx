@@ -11,6 +11,7 @@ import {
 import { ExpandMore } from "@mui/icons-material";
 import { Article as ArticleType } from "../../types";
 import { screenSize } from "../../constants";
+import moment from "moment";
 
 type Props = {
   article: ArticleType;
@@ -18,6 +19,7 @@ type Props = {
 
 const Article = ({ article }: Props) => {
   const isTablet = useMediaQuery(`(max-width:${screenSize.tablet})`);
+  const publishedDate = moment(article.published_date).format("MMM D");
 
   return (
     <Accordion
@@ -47,8 +49,22 @@ const Article = ({ article }: Props) => {
       <AccordionDetails>
         <Typography>{article.abstract}</Typography>
       </AccordionDetails>
-      <AccordionActions>
-        <Button component="a" href={article.url} target="_blank">
+      <AccordionActions
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography sx={{ pl: 1, color: "#6C7A89" }}>
+          {publishedDate} | {article.byline}
+        </Typography>
+        <Button
+          component="a"
+          href={article.url}
+          target="_blank"
+          sx={{ color: "#0c7600" }}
+        >
           View More
         </Button>
       </AccordionActions>

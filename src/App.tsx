@@ -15,6 +15,7 @@ function App() {
           height: "100%",
           overflowY: "auto",
           pb: isMobile ? 6 : 4,
+          bgcolor: "#F2F1EF"
         }}
       >
         <Stack
