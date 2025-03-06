@@ -4,15 +4,19 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SelectChangeEvent } from "@mui/material/Select";
 import { screenSize } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchArticles } from "../../features/articles/articlesSlice";
 import Articles from "../../components/Articles";
+import { RangeSelect } from "../../components/RangeSelect";
 
 const Dashboard = () => {
+  const [selectedRange, setSelectedRange] = useState<number>(1);
   const isTablet = useMediaQuery(`(max-width:${screenSize.tablet})`);
+  const isMobile = useMediaQuery(`(max-width:${screenSize.mobile})`);
 
   const dispatch = useDispatch<AppDispatch>();
   const {
@@ -22,15 +26,32 @@ const Dashboard = () => {
   } = useSelector((state: RootState) => state.articles);
 
   useEffect(() => {
-    dispatch(fetchArticles());
-  }, [dispatch]);
+    dispatch(fetchArticles(selectedRange));
+  }, [dispatch, selectedRange]);
+
+  const handleRangeChange = (event: SelectChangeEvent<number>) => {
+    setSelectedRange(event.target.value as number);
+  };
 
   return (
     <>
-      <Stack py={3}>
+      <Stack
+        display={"flex"}
+        direction={isMobile ? "column" : "row"}
+        alignItems="center"
+        spacing={2}
+        py={3}
+        justifyContent="space-between"
+      >
         <Typography fontSize={isTablet ? 22 : 36} fontWeight="600">
           Most Popular Articles
         </Typography>
+
+        <RangeSelect
+          selectedRange={selectedRange}
+          onRangeChange={handleRangeChange}
+          isMobile={isMobile}
+        />
       </Stack>
       <Stack width={"100%"}>
         {loading && (
